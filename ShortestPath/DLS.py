@@ -1,12 +1,16 @@
-graph = {
-    'A': ['B', 'C'],
-    'B': ['D', 'E'],
-    'C': ['F'],
-    'D': [],
-    'E': ['F'],
-    'F': []
-}
+# Depth-Limited Search (DLS) Algorithm
 
+# Input the graph from user
+graph = {}
+num_nodes = int(input("Enter number of nodes in the graph: "))
+
+for _ in range(num_nodes):
+    node = input("Enter node name: ").strip()
+    neighbors_input = input(f"Enter neighbors of {node} separated by spaces (or leave blank if none): ").strip()
+    neighbors = neighbors_input.split() if neighbors_input else []
+    graph[node] = neighbors
+
+# Depth-Limited Search function
 def dls(graph, node, depth, limit, visited=None):
     if visited is None:
         visited = set()
@@ -22,5 +26,10 @@ def dls(graph, node, depth, limit, visited=None):
         if neighbor not in visited:
             dls(graph, neighbor, depth + 1, limit, visited)
 
-# Run with depth limit = 2
-dls(graph, 'A', 0, 2)
+# User inputs
+start_node = input("\nEnter the starting node: ").strip()
+depth_limit = int(input("Enter the depth limit: "))
+
+# Run DLS
+print("\nDLS traversal:")
+dls(graph, start_node, 0, depth_limit)

@@ -1,26 +1,35 @@
 import math
 import random
 
-# Example graph (neighbors)
-graph = {
-    'A': ['B', 'C'],
-    'B': ['D', 'E'],
-    'C': ['F'],
-    'D': [],
-    'E': ['F'],
-    'F': []
-}
+# Simulated Annealing Algorithm
 
-# Heuristic (lower is better, goal = F → 0)
-h = {
-    'A': 7,
-    'B': 5,
-    'C': 3,
-    'D': 6,
-    'E': 2,
-    'F': 0
-}
+# Input the graph from user
+graph = {}
+num_nodes = int(input("Enter number of nodes in the graph: "))
 
+for _ in range(num_nodes):
+    node = input("Enter node name: ").strip()
+    neighbors_input = input(f"Enter neighbors of {node} separated by spaces (or leave blank if none): ").strip()
+    neighbors = neighbors_input.split() if neighbors_input else []
+    graph[node] = neighbors
+
+# Input heuristic values for each node
+h = {}
+print("\nEnter heuristic value (lower is better) for each node:")
+for node in graph:
+    while True:
+        try:
+            h_val = float(input(f"Heuristic for {node}: "))
+            h[node] = h_val
+            break
+        except ValueError:
+            print("Please enter a valid number.")
+
+# Input start and goal nodes
+start_node = input("\nEnter the starting node: ").strip()
+goal_node = input("Enter the goal node: ").strip()
+
+# Simulated Annealing function
 def simulated_annealing(graph, start, goal, h):
     current = start
     T = 100.0          # initial temperature
@@ -52,9 +61,8 @@ def simulated_annealing(graph, start, goal, h):
 
     return path, current
 
-
 # RUN
-path, final_node = simulated_annealing(graph, 'A', 'F', h)
+path, final_node = simulated_annealing(graph, start_node, goal_node, h)
 
-print("Path taken:", path)
+print("\nPath taken:", path)
 print("Final node:", final_node)
